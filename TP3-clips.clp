@@ -129,6 +129,46 @@
 		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
 )
 
+;;5
+(deftemplate vuelo 
+	(slot origen)
+	(slot destino)
+)
+
+(deffacts vuelos
+	(vuelo (origen Buenos_Aires) (destino cordoba))
+	(vuelo (origen Buenos_Aires) (destino SantaRosa))
+	(vuelo (origen Buenos_Aires) (destino SanJuan))
+	(vuelo (origen cordoba) (destino SantaFe))
+	(vuelo (origen cordoba) (destino Tucuman))
+	(vuelo (origen cordoba) (destino SantaRosa))
+	(vuelo (origen SanJuan) (destino Tucuman))
+	(vuelo (origen SanJuan) (destino Mendoza))
+	(vuelo (origen SanJuan) (destino Neuquen))
+	(vuelo (origen Mendoza) (destino Tucuman))
+	(vuelo (origen SantaRosa) (destino SanJuan))
+)
+
+(defrule ExisteVuelo
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp $?ori $?des))
+	=> 
+	(printout t " existe el vuelo entre: " ?ori " y " ?des crlf))
+
+(defrule DesdeCordoba
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp cordoba $?des))
+	=> 
+	(printout t " existe vuelos entre cordoba y " ?des crlf))
+
+(defrule hastaSanJuan
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp $?ori SanJuan))
+	=> 
+	(printout t " existe vuelos entre " ?ori " y " ?des crlf)
+)
+
+
 ;;6
 ;;6.a
 (deftemplate tiene_rango
