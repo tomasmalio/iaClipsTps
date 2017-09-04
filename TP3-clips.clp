@@ -62,6 +62,73 @@
 
 
 
+;;3
+;;3.a
+(assert (numeros 2 3))
+
+(defrule sumarDosNumYDividirPorRestaDosNum (numeros ?x ?y) 
+	=> (printout t "El resultado de (A+1) / (B-1) es: " (/ (+ ?x 1) (- ?y 1)) crlf))
+
+;;3.b
+(assert (numeros 4 3 5))
+
+(defrule sumarDosNumPorUnNum (numeros ?x ?y ?z) 
+	=> (printout t "El resultado de (A + B) * C es: " (* (+ ?x ?y) ?z) crlf))	
+
+;;3.c
+(assert (numeros 4 3 5))
+
+(defrule unNumDivididoLaMultiplicacionDeOtrosDos (numeros ?x ?y ?z) 
+	=> (printout t "El resultado de (R) / (D * E) es: " (/ ?x (* ?y ?z)) crlf))
+
+;;3.d
+(assert (numeros 6 4))
+
+(defrule unNumDivididoLaMultiplicacionDeOtrosDos (numeros ?x ?y) 
+	=> (printout t "El resultado de (4 * A * C) es: " (* 4 (* ?x ?y)) crlf))
+
+;;3.e
+(assert (numeros 4 3 5 6 2 1))
+
+(defrule divisionDeUnaSumaConUNaMultiplicacion (numeros ?u ?v ?w ?x ?y ?z) 
+	=> (printout t "El resultado de (A + B) / ((C + D) * (E + F)) es: " (/ (+ ?u ?v) (* (+ ?w ?x) (+ ?y ?z))) crlf))
+
+
+;;4
+(deftemplate auto
+(slot marca (type STRING))
+(slot modelo (type STRING))
+(slot año_patentamiento (type NUMBER) (range 1900 2100))
+(slot uso (type SYMBOL) (allowed-symbols Profesional Particular))
+(slot radicado (type SYMBOL) (allowed-symbols Buenos_Aires Chubut Capital_Federal Santa_Fe Cordoba))
+(slot patente (type STRING)))
+
+(deftemplate impuesto_automotor_provincial
+(slot patente (type STRING))
+(slot Paga (type SYMBOL) (allowed-symbols SI NO)))}
+
+
+(defrule paga_patente 
+	(auto 
+		(uso ?uso)
+		(marca ?marca)
+		(modelo ?modelo)
+		(año_patentamiento ?año)
+		(radicado ?provincia)
+		(patente ?patente))
+	
+	(auto 
+		(uso particular)
+		(test (< ?año 2002))
+		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
+		
+	(auto
+		(uso particular)
+		(test (< ?año 2007))		
+		(test (!= ?provincia chubut))
+		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
+)
+
 ;;10
 
 (deftemplate especie_pajaro
