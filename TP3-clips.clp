@@ -167,3 +167,37 @@
 	(subespecie ?x)
 	=>
 	(printout t "La subespecie es :" ?x crlf))
+	
+(deftemplate auto
+(slot marca (type STRING))
+(slot modelo (type STRING))
+(slot año_patentamiento (type NUMBER) (range 1900 2100))
+(slot uso (type SYMBOL) (allowed-symbols Profesional Particular))
+(slot radicado (type SYMBOL) (allowed-symbols Buenos_Aires Chubut Capital_Federal Santa_Fe Cordoba))
+(slot patente (type STRING)))
+
+(deftemplate impuesto_automotor_provincial
+(slot patente (type STRING))
+(slot Paga (type SYMBOL) (allowed-symbols SI NO)))}
+
+
+(defrule paga_patente 
+	(auto 
+		(uso ?uso)
+		(marca ?marca)
+		(modelo ?modelo)
+		(año_patentamiento ?año)
+		(radicado ?provincia)
+		(patente ?patente))
+	
+	(auto 
+		(uso particular)
+		(test (< ?año 2002))
+		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
+		
+	(auto
+		(uso particular)
+		(test (< ?año 2007))		
+		(test (!= ?provincia chubut))
+		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
+)	
