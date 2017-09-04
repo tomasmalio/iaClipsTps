@@ -129,8 +129,92 @@
 		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
 )
 
-;;10
+;;5
+(deftemplate vuelo 
+	(slot origen)
+	(slot destino)
+)
 
+(deffacts vuelos
+	(vuelo (origen Buenos_Aires) (destino cordoba))
+	(vuelo (origen Buenos_Aires) (destino SantaRosa))
+	(vuelo (origen Buenos_Aires) (destino SanJuan))
+	(vuelo (origen cordoba) (destino SantaFe))
+	(vuelo (origen cordoba) (destino Tucuman))
+	(vuelo (origen cordoba) (destino SantaRosa))
+	(vuelo (origen SanJuan) (destino Tucuman))
+	(vuelo (origen SanJuan) (destino Mendoza))
+	(vuelo (origen SanJuan) (destino Neuquen))
+	(vuelo (origen Mendoza) (destino Tucuman))
+	(vuelo (origen SantaRosa) (destino SanJuan))
+)
+
+(defrule ExisteVuelo
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp $?ori $?des))
+	=> 
+	(printout t " existe el vuelo entre: " ?ori " y " ?des crlf))
+
+(defrule DesdeCordoba
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp cordoba $?des))
+	=> 
+	(printout t " existe vuelos entre cordoba y " ?des crlf))
+
+(defrule hastaSanJuan
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp $?ori SanJuan))
+	=> 
+	(printout t " existe vuelos entre " ?ori " y " ?des crlf)
+)
+
+
+;;6
+;;6.a
+(deftemplate tiene_rango
+	(slot nombre)
+	(slot rango)
+)
+
+(deffacts base_de_rangos
+	(tiene_rango (nombre "bush") (rango "coronel"))
+	(tiene_rango (nombre "komehini") (rango "soldado"))
+	(tiene_rango (nombre "kadafi") (rango "soldado"))
+	(tiene_rango (nombre "fujimori") (rango "soldado"))
+	(tiene_rango (nombre "gonzalez") (rango "capitan"))
+	(tiene_rango (nombre "gorbachov") (rango "general"))
+	(tiene_rango (nombre "chirac") (rango "cabo"))
+	(tiene_rango (nombre "hussein") (rango "sargento"))
+	(tiene_rango (nombre "ford") (rango "teniente"))
+	(tiene_rango (nombre "arafat") (rango "mayor"))
+)
+
+(defrule identificar-rango 
+	(tiene_rango (nombre ?nombre-buscar) (rango ?rango))
+	(test (subsetp ?nombre-buscar ?nombre))
+	=> 
+	(printout t "La persona: " ?nombre-buscar " tiene el siguiente rango: " ?rango crlf)
+)
+
+;;6.b.
+(deffacts base_de_jefes
+	es_jefe_de (jefe "general") (de "coronel"))
+	es_jefe_de (jefe "coronel") (de "mayor"))
+	es_jefe_de (jefe "mayor") (de "capitán"))
+	es_jefe_de (jefe "capitán") (de "teniente"))
+	es_jefe_de (jefe "teniente") (de "sargento"))
+	es_jefe_de (jefe "sargento") (de "cabo"))
+	es_jefe_de (jefe "cabo") (de "soldado"))
+)
+
+(defrule identificar-si-es-jefe 
+	(tiene_rango (nombre ?quien-es-jefe) (rango $?rango))
+	(tiene_rango (nombre ?es-subdito) (rango $?rango))
+	=> 
+	(printout t "La persona: " ?nombre-buscar " tiene el siguiente rango: " ?rango crlf)
+)
+
+;;10
 (deftemplate especie_pajaro
 	(slot nombre_especie)
 	(slot sexo)
