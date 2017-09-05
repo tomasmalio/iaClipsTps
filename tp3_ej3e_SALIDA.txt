@@ -1,0 +1,9 @@
+         CLIPS (6.30 3/17/15)
+CLIPS> (assert (numeros 4 3 5 6 2 1))
+==> f-1     (numeros 4 3 5 6 2 1)
+<Fact-1>
+CLIPS> (defrule divisionDeUnaSumaConUNaMultiplicacion (numeros ?u ?v ?w ?x ?y ?z) 
+	=> (printout t "El resultado de (A + B) / ((C + D) * (E + F)) es: " (/ (+ ?u ?v) (* (+ ?w ?x) (+ ?y ?z))) crlf))
+CLIPS> (run)
+FIRE    1 divisionDeUnaSumaConUNaMultiplicacion: f-1
+El resultado de (A + B) / ((C + D) * (E + F)) es: 0.212121212121212

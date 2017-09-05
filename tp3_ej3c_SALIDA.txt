@@ -1,0 +1,9 @@
+         CLIPS (6.30 3/17/15)
+CLIPS> (assert (numeros 4 3 5))
+==> f-1     (numeros 4 3 5)
+<Fact-1>
+CLIPS> (defrule unNumDivididoLaMultiplicacionDeOtrosDos (numeros ?x ?y ?z) 
+	=> (printout t "El resultado de (R) / (D * E) es: " (/ ?x (* ?y ?z)) crlf))
+CLIPS> (run)
+FIRE    1 unNumDivididoLaMultiplicacionDeOtrosDos: f-1
+El resultado de (R) / (D * E) es: 0.266666666666667

@@ -1,0 +1,20 @@
+         CLIPS (6.30 3/17/15)
+CLIPS> (assert (vector 3 4 5))
+<Fact-1>
+CLIPS> (defrule minimo
+	(vector $? ?x $?)
+	(not(vector $? ?y&:(< ?y ?x) $?))
+	=>
+	(assert(min ?x)))
+CLIPS> (defrule maximo
+	(vector $? ?x $?)
+	(not(vector $? ?y&:(> ?y ?x) $?))
+	=>
+	(assert(max ?x)))
+CLIPS> (defrule producto
+	(min ?x) (max ?y)
+	=>
+	(printout t "El producto entre el minimo y el maximo es: " (* ?x ?y) crlf))
+CLIPS> (run)
+El producto entre el minimo y el maximo es: 15
+CLIPS> 

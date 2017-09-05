@@ -1,0 +1,11 @@
+         CLIPS (6.30 3/17/15)
+CLIPS> (assert (numero 3.5))
+
+<Fact-1>
+CLIPS> (defrule parte_entera
+	(numero ?x)
+	=>
+	(printout t "La parte entera de (14/4) es :" (- (/ 14 4) 0.5) crlf))
+CLIPS> (run)
+La parte entera de (14/4) es :3.0
+CLIPS> 

@@ -62,8 +62,159 @@
 
 
 
-;;10
+;;3
+;;3.a
+(assert (numeros 2 3))
 
+(defrule sumarDosNumYDividirPorRestaDosNum (numeros ?x ?y) 
+	=> (printout t "El resultado de (A+1) / (B-1) es: " (/ (+ ?x 1) (- ?y 1)) crlf))
+
+;;3.b
+(assert (numeros 4 3 5))
+
+(defrule sumarDosNumPorUnNum (numeros ?x ?y ?z) 
+	=> (printout t "El resultado de (A + B) * C es: " (* (+ ?x ?y) ?z) crlf))	
+
+;;3.c
+(assert (numeros 4 3 5))
+
+(defrule unNumDivididoLaMultiplicacionDeOtrosDos (numeros ?x ?y ?z) 
+	=> (printout t "El resultado de (R) / (D * E) es: " (/ ?x (* ?y ?z)) crlf))
+
+;;3.d
+(assert (numeros 6 4))
+
+(defrule unNumDivididoLaMultiplicacionDeOtrosDos (numeros ?x ?y) 
+	=> (printout t "El resultado de (4 * A * C) es: " (* 4 (* ?x ?y)) crlf))
+
+;;3.e
+(assert (numeros 4 3 5 6 2 1))
+
+(defrule divisionDeUnaSumaConUNaMultiplicacion (numeros ?u ?v ?w ?x ?y ?z) 
+	=> (printout t "El resultado de (A + B) / ((C + D) * (E + F)) es: " (/ (+ ?u ?v) (* (+ ?w ?x) (+ ?y ?z))) crlf))
+
+
+;;4
+(deftemplate auto
+(slot marca (type STRING))
+(slot modelo (type STRING))
+(slot año_patentamiento (type NUMBER) (range 1900 2100))
+(slot uso (type SYMBOL) (allowed-symbols Profesional Particular))
+(slot radicado (type SYMBOL) (allowed-symbols Buenos_Aires Chubut Capital_Federal Santa_Fe Cordoba))
+(slot patente (type STRING)))
+
+(deftemplate impuesto_automotor_provincial
+(slot patente (type STRING))
+(slot Paga (type SYMBOL) (allowed-symbols SI NO)))}
+
+
+(defrule paga_patente 
+	(auto 
+		(uso ?uso)
+		(marca ?marca)
+		(modelo ?modelo)
+		(año_patentamiento ?año)
+		(radicado ?provincia)
+		(patente ?patente))
+	
+	(auto 
+		(uso particular)
+		(test (< ?año 2002))
+		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
+		
+	(auto
+		(uso particular)
+		(test (< ?año 2007))		
+		(test (!= ?provincia chubut))
+		=> assert (impuesto_automotor_provincial(patente ?patente)(paga NO)))
+)
+
+;;5
+(deftemplate vuelo 
+	(slot origen)
+	(slot destino)
+)
+
+(deffacts vuelos
+	(vuelo (origen Buenos_Aires) (destino cordoba))
+	(vuelo (origen Buenos_Aires) (destino SantaRosa))
+	(vuelo (origen Buenos_Aires) (destino SanJuan))
+	(vuelo (origen cordoba) (destino SantaFe))
+	(vuelo (origen cordoba) (destino Tucuman))
+	(vuelo (origen cordoba) (destino SantaRosa))
+	(vuelo (origen SanJuan) (destino Tucuman))
+	(vuelo (origen SanJuan) (destino Mendoza))
+	(vuelo (origen SanJuan) (destino Neuquen))
+	(vuelo (origen Mendoza) (destino Tucuman))
+	(vuelo (origen SantaRosa) (destino SanJuan))
+)
+
+(defrule ExisteVuelo
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp $?ori $?des))
+	=> 
+	(printout t " existe el vuelo entre: " ?ori " y " ?des crlf))
+
+(defrule DesdeCordoba
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp cordoba $?des))
+	=> 
+	(printout t " existe vuelos entre cordoba y " ?des crlf))
+
+(defrule hastaSanJuan
+	(vuelo (origen $?ori) (destino $?des))
+	(test (subsetp $?ori SanJuan))
+	=> 
+	(printout t " existe vuelos entre " ?ori " y " ?des crlf)
+)
+
+
+;;6
+;;6.a
+(deftemplate tiene_rango
+	(slot nombre)
+	(slot rango)
+)
+
+(deffacts base_de_rangos
+	(tiene_rango (nombre "bush") (rango "coronel"))
+	(tiene_rango (nombre "komehini") (rango "soldado"))
+	(tiene_rango (nombre "kadafi") (rango "soldado"))
+	(tiene_rango (nombre "fujimori") (rango "soldado"))
+	(tiene_rango (nombre "gonzalez") (rango "capitan"))
+	(tiene_rango (nombre "gorbachov") (rango "general"))
+	(tiene_rango (nombre "chirac") (rango "cabo"))
+	(tiene_rango (nombre "hussein") (rango "sargento"))
+	(tiene_rango (nombre "ford") (rango "teniente"))
+	(tiene_rango (nombre "arafat") (rango "mayor"))
+)
+
+(defrule identificar-rango 
+	(tiene_rango (nombre ?nombre-buscar) (rango ?rango))
+	(test (subsetp ?nombre-buscar ?nombre))
+	=> 
+	(printout t "La persona: " ?nombre-buscar " tiene el siguiente rango: " ?rango crlf)
+)
+
+;;6.b.
+(deffacts base_de_jefes
+	es_jefe_de (jefe "general") (de "coronel"))
+	es_jefe_de (jefe "coronel") (de "mayor"))
+	es_jefe_de (jefe "mayor") (de "capitán"))
+	es_jefe_de (jefe "capitán") (de "teniente"))
+	es_jefe_de (jefe "teniente") (de "sargento"))
+	es_jefe_de (jefe "sargento") (de "cabo"))
+	es_jefe_de (jefe "cabo") (de "soldado"))
+)
+
+(defrule identificar-si-es-jefe 
+	(tiene_rango (nombre ?quien-es-jefe) (rango $?rango))
+	(tiene_rango (nombre ?es-subdito) (rango $?rango))
+	=> 
+	(printout t "La persona: " ?nombre-buscar " tiene el siguiente rango: " ?rango crlf)
+)
+
+;;10
 (deftemplate especie_pajaro
 	(slot nombre_especie)
 	(slot sexo)
