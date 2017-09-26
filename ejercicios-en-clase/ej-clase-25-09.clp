@@ -54,7 +54,7 @@
 	)
 	?A <- (Clasificacion (Caso ?id) (Familia NoSe) (SubFamiliaAve NoSe))
 	=> 
-	(modiy ?A (Familia Ave) (SubFamiliaAve Terrestre))
+	(modiy ?A (Familia Ave) (SubFamiliaAve Tierra))
 )
 
 ;; 4.
@@ -177,7 +177,9 @@
 	)
 	?A <- (Clasificacion 
 			(Caso ?id)
-			()
+			(Familia Mamiferos)
+			(SubFamiliaMamifero Roedor)
+			(Nombre NoSe)
 		)
-	=> (modify ?A ())
+	=> (modify ?A (Nombre Ardilla_Gris))
 )
