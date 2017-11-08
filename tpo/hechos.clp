@@ -60,9 +60,82 @@
 		(long -90.7513299)
 		(tipo Familiar Cultural Cultural Intermedio Lujoso)
 	)
+	(Destino
+		(nombre "Copan, Honduras")
+		(lat 14.8460772)
+		(long -89.1681294)
+		(tipo Joven Cultural Aventura Gasolero)
+	)
+	(Destino
+		(nombre "West End, Honduras")
+		(lat 16.3033687)
+		(long -86.6008902)
+		(tipo Joven Cultural Gasolero)
+	)
+	(Destino
+		(nombre "Cancún, Mexico")
+		(lat 21.1213285)
+		(long -86.9192741)
+		(tipo Joven Solas_y_Solos Aventura Fiesta Relax Intermedio Lujoso)
+	)
+	(Destino
+		(nombre "Acapulco, Mexico")
+		(lat 16.8354129)
+		(long -100.0023965)
+		(tipo Joven Solas_y_Solos Tercera_Edad Fiesta Relax Intermedio Lujoso)
+	)
+	(Destino
+		(nombre "Puerto Vallarta, Mexico")
+		(lat 20.6408576)
+		(long -105.2945651)
+		(tipo Familiar Cultural Relax Lujoso)
+	)
+	(Destino
+		(nombre "Riviera Maya, Mexico")
+		(lat 20.3531019)
+		(long -87.6361275)
+		(tipo Joven Familiar Solos_y_Solos Tercera_Edad Cultural Relax Fiesta Aventura Lujoso)
+	)
+	(Destino
+		(nombre "Punta Cana, Mexico")
+		(lat 18.8090851)
+		(long -70.6986195)
+		(tipo Familiar Solos_y_Solos Tercera_Edad Relax Aventura Intermedio Lujoso)
+	)
+	(Destino
+		(nombre "Granada, Nicaragua")
+		(lat 11.9288488)
+		(long -85.9773091)
+		(tipo Joven Aventura Cultural Gasolero)
+	)
+	(Destino
+		(nombre "Ciudad de Panamá, Panamá")
+		(lat 9.0813885)
+		(long -79.5932255)
+		(tipo Joven Familiar Solos_y_Solas Tercera_Edad Cultural Relax Fiesta Aventura Intermedio)
+	)
+	(Destino
+		(nombre "Bayahibe, Republica Dominicana")
+		(lat 18.3216406)
+		(long -68.9084508)
+		(tipo Tercera_Edad Relax Intermedio)
+	)
+	(Destino
+		(nombre "San Juan, Puerto Rico")
+		(lat 18.3892246)
+		(long -66.1305133)
+		(tipo Joven Familiar Solos_y_Solas Tercera_Edad Cultural Relax Fiesta Gasolero Intermedio Lujoso)
+	)
+	(Destino
+		(nombre "Mexico DF, Mexico")
+		(lat 19.39068)
+		(long -99.2837003)
+		(tipo Joven Familiar Solos_y_Solas Cultural Fiesta Intermedio)
+	)
+	(Destino
+		(nombre "Tikal	Guatemala")
+		(lat 17.2239372)
+		(long -89.6333744)
+		(tipo Joven Cultural Aventura Gasolero Intermedio)
+	)
 )
-
-
-
-
-
