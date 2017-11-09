@@ -363,7 +363,7 @@
 
 (defrule R_DESTINOS_RELAX_2
 	(Actividad
-		(fiesta $?c))
+		(relax $?c))
 	?s <-(subtipos (valores $?v))
 	?d <-(filtro (valores $?tipo))
 	(test (eq ?*ENCONTRORELAX* FALSE))
