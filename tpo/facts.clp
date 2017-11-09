@@ -143,11 +143,19 @@
 
 (deffacts datos 
 	(Actividad
-		(culturales Museos Lugares_Historicos Fotografia Conocer_Ciudad Gastronomia NoSe)
-		(aventura Acuaticas Treking Cabalgata Buceo NoSe)
-		(relax Descanso Pesca Gastronomia Fotografia NoSe)
-		(fiesta Nocturna Gastronomia NoSe)
+		(culturales 
+			Museos Lugares_Historicos Fotografia Conocer_Ciudad Gastronomia NoSe
 		)
+		(aventura 
+			Acuaticas Treking Cabalgata Buceo NoSe
+		)
+		(relax 
+			Descanso Pesca Gastronomia Fotografia NoSe
+		)
+		(fiesta 
+			Nocturna Gastronomia NoSe
+		)
+	)
 	(filtro)
 	;;esto es de prueba
 	;;(subtipos (valores Museos Lugares_Historicos Nocturna Lujosos))

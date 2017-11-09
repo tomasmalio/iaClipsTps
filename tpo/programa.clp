@@ -2,6 +2,12 @@
 (defglobal ?*ENCONTROAVENTURA* = FALSE)
 (defglobal ?*ENCONTROFIESTA* = FALSE)
 (defglobal ?*ENCONTRORELAX* = FALSE)
+
+(defglobal ?*ENCONTROJOVENES* = FALSE)
+(defglobal ?*ENCONTROFAMILIARES* = FALSE)
+(defglobal ?*ENCONTROTERCERAEDAD* = FALSE)
+(defglobal ?*ENCONTROSOLASYSOLOS* = FALSE)
+
 (defglobal ?*FILTRO* = FALSE)
 
 (deftemplate subtipos
@@ -19,7 +25,7 @@
 )
 
 (deftemplate Destino
-	(slot nombre)
+	(slot nombre) (type STRING)
 	(slot lat)
 	(slot long)
 	(multislot tipo (type SYMBOL)
@@ -44,6 +50,7 @@
 	(multislot fiesta
 		(allowed-values Nocturna Gastronomia NoSe))		
 )
+
 (deftemplate Mes_Viaje
 	(slot nombre (type SYMBOL)
 		(allowed-values Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre NoSe)
@@ -62,8 +69,9 @@
 
 ;; Me define la edad del viajero en función de su rango de edad
 (deftemplate Viajero_Edad
-	(slot categoria
-		(allowed-values Joven Adulto Mayor NoSe))
+	(slot categoria (type STRING) 
+		(allowed-values Joven Adulto Mayor NoSe) 
+	)
 )
 
 ;; R.1
@@ -226,8 +234,11 @@
 ;; R.5.3
 (defrule R_EDAD_ADULTO_2
 	(Viajero
-		(edad ?e))
-	(test (> ?e 50))
+		(edad ?e)
+	)
+	(test 
+		(> ?e 50)
+	)
 	?a <- (Viajero_Edad (categoria NoSe))	
 	=>	(modify ?a (categoria Mayor))
 )
@@ -238,127 +249,190 @@
 ;; R.6.1
 (defrule R_DESTINOS_FAMILIARES
 	(Viajero_Edad
-		(categoria ?c))
-	(test (or(eq ?c Adulto) (eq ?c Mayor)))
+		(categoria ?c)
+	)
 	(Viajero
-		(acompaniantes ?a))
-	(test (or(eq ?c Familia) (eq ?c Pareja)))
-	?b <- (Destino (tipo NoSe))	
-	=>	(modify ?b (tipo Familiares))
+		(acompaniantes ?a)
+	)
+	(test 
+		(or
+			(eq ?c Adulto)
+			(eq ?c Mayor)
+		)
+		(or
+			(eq ?a Familia)
+			(eq ?a Pareja)
+		)
+	)
+	?d <-(filtro (valores $?tipo))
+	(test (eq ?*ENCONTROFAMILIARES* FALSE))
+	=>	
+		(if (eq ?*ENCONTROFAMILIARES* FALSE)
+			then
+				(bind ?*ENCONTROFAMILIARES* TRUE)
+				(modify ?d (tipo $?tipo Familiares))
+		)
 )
 
 ;; R.6.2
 (defrule R_DESTINOS_JOVENES
 	(Viajero_Edad
-		(categoria ?c))
-	(test (or(eq ?c Joven) (eq ?c Mayor)))
+		(categoria ?c)
+	)
 	(Viajero
-		(acompaniantes ?a))
-	(test (or(eq ?c Solo) (eq ?c Amigos)))
-	?b <- (Destino (tipo NoSe))	
-	=>	(modify ?b (tipo Jovenes))
+		(acompaniantes ?a)
+	)
+	(test 
+		(or
+			(eq ?c Joven)
+			(eq ?c Mayor)
+		)
+		(or
+			(eq ?a Solo)
+			(eq ?a Amigos)
+		)
+	)
+	?d <-(filtro (valores $?tipo))
+	(test (eq ?*ENCONTROJOVENES* FALSE))
+	=>	
+		(if (eq ?*ENCONTROJOVENES* FALSE)
+			then
+				(bind ?*ENCONTROJOVENES* TRUE)
+				(modify ?d (valores $?tipo Jovenes))
+		)
 )
 
 ;; R.6.3
 (defrule R_DESTINOS_3ERA_EDAD
 	(Viajero_Edad
-		(categoria ?c))
-	(test (eq ?c Mayor))
+		(categoria ?c)
+	)
 	(Viajero
-		(acompaniantes ?a))
-	(test (eq ?c Pareja))
-	?b <- (Destino (tipo NoSe))	
-	=>	(modify ?b (tipo Tercera_Edad))
+		(acompaniantes ?a)
+	)
+	(test 
+		(eq ?c Mayor)
+		(eq ?a Pareja)
+	)
+	?d <-(filtro (valores $?tipo))
+	(test (eq ?*ENCONTROTERCERAEDAD* FALSE))
+	=>	
+		(if (eq ?*ENCONTROTERCERAEDAD* FALSE)
+			then
+				(bind ?*ENCONTROTERCERAEDAD* TRUE)
+				(modify ?d (valores $?tipo Tercera_Edad))
+		)
 )
 
 ;; R.6.4
 (defrule R_DESTINOS_SOLAS_Y_SOLOS
 	(Viajero_Edad
-		(categoria ?c))
-	(test (or(eq ?c Adulta) (eq ?c Mayor)))
+		(categoria ?c)
+	)
 	(Viajero
-		(acompaniantes ?a))
-	(test (eq ?c Solo))
-	?b <- (Destino (tipo NoSe))	
-	=>	(modify ?b (tipo Solas_y_Solos))
+		(acompaniantes ?a)
+	)
+	(test 
+		(or
+			(eq ?c Adulta)
+			(eq ?c Mayor)
+		)
+		(eq ?c Solo)
+	)
+	?d <-(filtro (valores $?tipo))
+	(test (eq ?*ENCONTROSOLASYSOLOS* FALSE))
+	=>	
+		(if (eq ?*ENCONTROSOLASYSOLOS* FALSE)
+			then
+				(bind ?*ENCONTROSOLASYSOLOS TRUE)
+				(modify ?d (valores $?tipo Solas_y_Solos))
+		)
 )
 
 ;; R.6.5
 (defrule R_DESTINOS_AVENTURAS	
 	(Actividad
-		(aventura ?a))
-	(test (or(eq ?a Acuaticas) (eq ?a Treking) (eq ?a Cabalgata)))
+		(aventura ?a)
+	)
+	(test 
+		(or
+			(eq ?a Acuaticas)
+			(eq ?a Treking)
+			(eq ?a Cabalgata)
+		)
+	)
 	?b <- (Destino (tipo NoSe))	
 	=>	(modify ?b (tipo Aventura))
 )
 
-
-
 (defrule R_DESTINOS_CULTURALES
 	(Actividad
-		(culturales $?c))
+		(culturales $?c)
+	)
 	?s <-(subtipos (valores $?v))
 	?d <-(filtro (valores $?tipo))
 	(test (eq ?*ENCONTROCULTURAL* FALSE))
-=>	(loop-for-count(?x 1 5)
-		(bind ?val (nth$ ?x $?v))
-		(if(member$ ?val $?c)
-			then
-			(printout t "esta " ?val crlf)
-			(bind ?new (delete$ $?v ?x ?x))
-			(bind ?*ENCONTROCULTURAL* TRUE)
+	=>	(loop-for-count(?x 1 5)
+			(bind ?val (nth$ ?x $?v))
+			(if(member$ ?val $?c)
+				then
+					(printout t "esta " ?val crlf)
+					(bind ?new (delete$ $?v ?x ?x))
+					(bind ?*ENCONTROCULTURAL* TRUE)
+			)
 		)
-	)
-	(if (eq ?*ENCONTROCULTURAL* TRUE)
-		then
-		(modify ?s (valores ?new))
-		(modify ?d (valores $?tipo Culturales))
-	)
+		(if (eq ?*ENCONTROCULTURAL* TRUE)
+			then
+				(modify ?s (valores ?new))
+				(modify ?d (valores $?tipo Culturales))
+		)
 )
 
 
 (defrule R_DESTINOS_AVENTURAS_2
 	(Actividad
-		(aventura $?c))
+		(aventura $?c)
+	)
 	?s <-(subtipos (valores $?v))
 	?d <-(filtro (valores $?tipo))
 	(test (eq ?*ENCONTROAVENTURA* FALSE))
-=>	(loop-for-count(?x 1 5)
-		(bind ?val (nth$ ?x $?v))
-		(if(member$ ?val $?c)
-			then
-			(printout t "esta " ?val crlf)
-			(bind ?new (delete$ $?v ?x ?x))
-			(bind ?*ENCONTROAVENTURA* TRUE)
+	=>	(loop-for-count(?x 1 5)
+			(bind ?val (nth$ ?x $?v))
+			(if(member$ ?val $?c)
+				then
+					(printout t "esta " ?val crlf)
+					(bind ?new (delete$ $?v ?x ?x))
+					(bind ?*ENCONTROAVENTURA* TRUE)
+			)
 		)
-	)
-	(if (eq ?*ENCONTROAVENTURA* TRUE)
-		then
-		(modify ?s (valores ?new))
-		(modify ?d (valores $?tipo Aventura))
-	)
+		(if (eq ?*ENCONTROAVENTURA* TRUE)
+			then
+			(modify ?s (valores ?new))
+			(modify ?d (valores $?tipo Aventura))
+		)
 )
 
 (defrule R_DESTINOS_FIESTA_2
 	(Actividad
-		(fiesta $?c))
+		(fiesta $?c)
+	)
 	?s <-(subtipos (valores $?v))
 	?d <-(filtro (valores $?tipo))
 	(test (eq ?*ENCONTROFIESTA* FALSE))
-=>	(loop-for-count(?x 1 5)
-		(bind ?val (nth$ ?x $?v))
-		(if(member$ ?val $?c)
-			then
-			(printout t "esta " ?val crlf)
-			(bind ?new (delete$ $?v ?x ?x))
-			(bind ?*ENCONTROFIESTA* TRUE)
+	=>	(loop-for-count(?x 1 5)
+			(bind ?val (nth$ ?x $?v))
+			(if(member$ ?val $?c)
+				then
+					(printout t "esta " ?val crlf)
+					(bind ?new (delete$ $?v ?x ?x))
+					(bind ?*ENCONTROFIESTA* TRUE)
+			)
 		)
-	)
-	(if (eq ?*ENCONTROFIESTA* TRUE)
-		then
-		(modify ?s (valores ?new))
-		(modify ?d (valores $?tipo Fiesta))
-	)
+		(if (eq ?*ENCONTROFIESTA* TRUE)
+			then
+				(modify ?s (valores ?new))
+				(modify ?d (valores $?tipo Fiesta))
+		)
 )
 
 (defrule R_DESTINOS_RELAX_2
@@ -367,43 +441,48 @@
 	?s <-(subtipos (valores $?v))
 	?d <-(filtro (valores $?tipo))
 	(test (eq ?*ENCONTRORELAX* FALSE))
-=>	(loop-for-count(?x 1 5)
-		(bind ?val (nth$ ?x $?v))
-		(if(member$ ?val $?c)
-			then
-			(printout t "esta " ?val crlf)
-			(bind ?new (delete$ $?v ?x ?x))
-			(bind ?*ENCONTRORELAX* TRUE)
+	=>	(loop-for-count(?x 1 5)
+			(bind ?val (nth$ ?x $?v))
+			(if(member$ ?val $?c)
+				then
+					(printout t "esta " ?val crlf)
+					(bind ?new (delete$ $?v ?x ?x))
+					(bind ?*ENCONTRORELAX* TRUE)
+			)
 		)
-	)
-	(if (eq ?*ENCONTRORELAX* TRUE)
-		then
-		(modify ?s (valores ?new))
-		(modify ?d (valores $?tipo Relax))
-	)
+		(if (eq ?*ENCONTRORELAX* TRUE)
+			then
+				(modify ?s (valores ?new))
+				(modify ?d (valores $?tipo Relax))
+		)
 )
 
 
 (defrule CREAR_RESULTADO
 	(filtro (valores $?v))
-	(Destino (nombre ?n)(lat ?lt)(long ?ln)(tipo $?t))
-=>
+	(Destino 
+		(nombre ?n)
+		(lat ?lt)
+		(long ?ln)
+		(tipo $?t)
+	)
+	=>
 	(loop-for-count (?x 1 2)
 		(bind ?val (nth$ ?x $?v))
 		(if(member$ ?val $?t)
 			then
-			;;(printout t "encuentra " ?val crlf)
-			(bind ?*FILTRO* TRUE)
-			else
-			(if (neq ?val nil)
-				then
-					;;(printout t "no encuentra " ?val crlf)
-					(bind ?*FILTRO* FALSE)
-			)
+				;;(printout t "encuentra " ?val crlf)
+				(bind ?*FILTRO* TRUE)
+				else
+				(if (neq ?val nil)
+					then
+						;;(printout t "no encuentra " ?val crlf)
+						(bind ?*FILTRO* FALSE)
+				)
 		)
 	)
 	(if (eq ?*FILTRO* TRUE)
 		then
-		(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
-		)
+			(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
+	)
 )
