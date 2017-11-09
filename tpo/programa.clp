@@ -365,6 +365,7 @@
 	=>	(modify ?b (tipo Aventura))
 )
 
+;; R.6.6
 (defrule R_DESTINOS_CULTURALES
 	(Actividad
 		(culturales $?c)
@@ -388,7 +389,7 @@
 		)
 )
 
-
+;; R.6.7
 (defrule R_DESTINOS_AVENTURAS_2
 	(Actividad
 		(aventura $?c)
@@ -412,6 +413,7 @@
 		)
 )
 
+;; R.6.8
 (defrule R_DESTINOS_FIESTA_2
 	(Actividad
 		(fiesta $?c)
@@ -435,6 +437,7 @@
 		)
 )
 
+;; R.6.9
 (defrule R_DESTINOS_RELAX_2
 	(Actividad
 		(relax $?c))
@@ -457,7 +460,77 @@
 		)
 )
 
+;; R.7.1
+(defrule R_DESTINOS_LUJOSOS
+	(Temporada
+		(tipo $?c)
+	)
+	(Presupuesto
+		(alcance $?a)
+	)
+	(test
+		(or
+			(eq ?c Baja)
+			(eq ?c Media)
+		)
+		(eq ?a Alto)
+	)
+	?d <- (filtro (valores $?tipo))
+	(test (eq ?*ENCONTRADOLUJOSOS* FALSE))
+	=> 
+		(if (eq ?*ENCONTRADOLUJOSOS* FALSE)
+			then
+				(bind ?*ENCONTRADOLUJOSOS TRUE)
+				(modify ?d (valores $?tipo Lujosos))
+)
 
+;; R.7.2
+(defrule R_DESTINOS_INTERMEDIOS
+	(Temporada
+		(tipo $?c)
+	)
+	(Presupuesto
+		(alcance $?a)
+	)
+	(test
+		(eq ?c Alta)
+		(eq ?a Medio)
+	)
+	?d <- (filtro (valores $?tipo))
+	(test (eq ?*ENCONTRADOINTERMEDIOS* FALSE))
+	=> 
+		(if (eq ?*ENCONTRADOINTERMEDIOS* FALSE)
+			then
+				(bind ?*ENCONTRADOINTERMEDIOS TRUE)
+				(modify ?d (valores $?tipo Intermedios))
+)
+
+;; R.7.2
+(defrule R_DESTINOS_GASOLEROS
+	(Temporada
+		(tipo $?c)
+	)
+	(Presupuesto
+		(alcance $?a)
+	)
+	(test
+		(or
+			(eq ?c Media)
+			(eq ?c Alta)
+		)
+		(eq ?a Bajo)
+	)
+	?d <- (filtro (valores $?tipo))
+	(test (eq ?*ENCONTRADOGASOLEROS* FALSE))
+	=> 
+		(if (eq ?*ENCONTRADOGASOLEROS* FALSE)
+			then
+				(bind ?*ENCONTRADOGASOLEROS TRUE)
+				(modify ?d (valores $?tipo Gasoleros))
+)
+
+
+;; R.8
 (defrule CREAR_RESULTADO
 	(filtro (valores $?v))
 	(Destino 
