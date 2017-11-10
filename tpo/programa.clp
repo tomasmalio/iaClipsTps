@@ -8,6 +8,10 @@
 (defglobal ?*ENCONTROTERCERAEDAD* = FALSE)
 (defglobal ?*ENCONTROSOLASYSOLOS* = FALSE)
 
+(defglobal ?*ENCONTRADOGASOLEROS = FALSE)
+(defglobal ?*ENCONTRADOINTERMEDIOS* = FALSE)
+(defglobal ?*ENCONTRADOLUJOSOS* = FALSE)
+
 (defglobal ?*FILTRO* = FALSE)
 
 (deftemplate subtipos
@@ -528,7 +532,6 @@
 				(bind ?*ENCONTRADOGASOLEROS TRUE)
 				(modify ?d (valores $?tipo Gasoleros))
 )
-
 
 ;; R.8
 (defrule CREAR_RESULTADO
