@@ -8,7 +8,7 @@
 (defglobal ?*ENCONTROTERCERAEDAD* = FALSE)
 (defglobal ?*ENCONTROSOLASYSOLOS* = FALSE)
 
-(defglobal ?*ENCONTRADOGASOLEROS = FALSE)
+(defglobal ?*ENCONTRADOGASOLEROS* = FALSE)
 (defglobal ?*ENCONTRADOINTERMEDIOS* = FALSE)
 (defglobal ?*ENCONTRADOLUJOSOS* = FALSE)
 
@@ -490,8 +490,10 @@
 		(eq ?a Alto)
 	)
 	?d <- (filtro (valores $?tipo))
+	(test (eq ?*ENCONTRADOLUJOSOS* FALSE))
 	=> 
 		(modify ?d (valores $?tipo Lujosos))
+		(bind ?*ENCONTRADOLUJOSOS* TRUE)
 )
 
 ;; R.7.2
@@ -509,8 +511,10 @@
 		(eq ?a Medio)
 	)
 	?d <- (filtro (valores $?tipo))
+	(test (eq ?*ENCONTRADOINTERMEDIOS* FALSE))
 	=> 
 		(modify ?d (valores $?tipo Intermedios))
+		(bind ?*ENCONTRADOINTERMEDIOS* TRUE)
 )
 
 ;; R.7.2
@@ -531,39 +535,13 @@
 		(eq ?a Bajo)
 	)
 	?d <- (filtro (valores $?tipo))
+	(test (eq ?*ENCONTRADOGASOLEROS* FALSE))
 	=> 
 		(modify ?d (valores $?tipo Gasoleros))
+		(bind ?*ENCONTRADOGASOLEROS* TRUE)
 )
 
 ;; R.8
-;;(defrule CREAR_RESULTADO
-;;	(filtro (valores $?v))
-;;	(Destino 
-;;		(nombre ?n)
-;;		(lat ?lt)
-;;		(long ?ln)
-;;	)
-;;	=>
-;;	(loop-for-count (?x 1 2)
-;;		(bind ?val (nth$ ?x $?v))
-;;		(if(member$ ?val $?t)
-;;			then
-;;				;;(printout t "encuentra " ?val crlf)
-;;				(bind ?*FILTRO* TRUE)
-;;				else
-;;				(if (neq ?val nil)
-;;					then
-;;						;;(printout t "no encuentra " ?val crlf)
-;;						(bind ?*FILTRO* FALSE)
-;;				)
-;;		)
-;;	)
-;;	(if (eq ?*FILTRO* TRUE)
-;;		then
-;;			(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
-;;	)
-;;)
-
 (defrule CREAR_RESULTADO
 	(filtro (valores $?v))
 	(Destino (nombre ?n)(lat ?lt)(long ?ln)(tipo $?t))
