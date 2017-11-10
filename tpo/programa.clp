@@ -546,22 +546,24 @@
 	(filtro (valores $?v))
 	(Destino (nombre ?n)(lat ?lt)(long ?ln)(tipo $?t))
 =>
-	(loop-for-count (?x 1 10)
+	(loop-for-count (?x 1 1)
 		(bind ?val (nth$ ?x $?v))
 		(if(member$ ?val $?t)
 			then
-			;;(printout t "encuentra " ?val crlf)
+			(printout t "encuentra " ?val crlf)
 			(bind ?*FILTRO* TRUE)
 			else
 			(if (neq ?val nil)
 				then
-					;;(printout t "no encuentra " ?val crlf)
+					(printout t "no encuentra " ?val crlf)
 					(bind ?*FILTRO* FALSE)
 			)
 		)
-	)
-	(if (eq ?*FILTRO* TRUE)
+		(if (eq ?*FILTRO* TRUE)
 		then
 		(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
+		(bind ?*FILTRO* FALSE)
 		)
+	)
+	
 )
