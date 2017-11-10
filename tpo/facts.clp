@@ -203,6 +203,8 @@
 		)
 	)
 	(filtro)
+	(filtroEdadAcompaniante)
+	(filtroPresupuestoTemporada)
 	(Temporada (tipo NoSe))
 	(Presupuesto (alcance NoSe))
 	(Viajero_Edad (categoria NoSe))
