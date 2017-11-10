@@ -29,7 +29,7 @@
 )
 
 (deftemplate Destino
-	(slot nombre) (type STRING)
+	(slot nombre (type STRING))
 	(slot lat)
 	(slot long)
 	(multislot tipo (type SYMBOL)
@@ -73,7 +73,7 @@
 
 ;; Me define la edad del viajero en función de su rango de edad
 (deftemplate Viajero_Edad
-	(slot categoria (type STRING) 
+	(slot categoria (type SYMBOL) 
 		(allowed-values Joven Adulto Mayor NoSe) 
 	)
 )
@@ -263,19 +263,21 @@
 			(eq ?c Adulto)
 			(eq ?c Mayor)
 		)
+	)
+	(test
 		(or
 			(eq ?a Familia)
 			(eq ?a Pareja)
 		)
 	)
 	?d <-(filtro (valores $?tipo))
-	(test (eq ?*ENCONTROFAMILIARES* FALSE))
+;;	(test (eq ?*ENCONTROFAMILIARES* FALSE))
 	=>	
-		(if (eq ?*ENCONTROFAMILIARES* FALSE)
-			then
-				(bind ?*ENCONTROFAMILIARES* TRUE)
-				(modify ?d (tipo $?tipo Familiares))
-		)
+;;		(if (eq ?*ENCONTROFAMILIARES* FALSE)
+;;			then
+;;				(bind ?*ENCONTROFAMILIARES* TRUE)
+				(modify ?d (valores $?tipo Familiares))
+;;		)
 )
 
 ;; R.6.2
@@ -291,13 +293,15 @@
 			(eq ?c Joven)
 			(eq ?c Mayor)
 		)
+	)
+	(test
 		(or
 			(eq ?a Solo)
 			(eq ?a Amigos)
 		)
 	)
 	?d <-(filtro (valores $?tipo))
-	(test (eq ?*ENCONTROJOVENES* FALSE))
+;;	(test (eq ?*ENCONTROJOVENES* FALSE))
 	=>	
 		(if (eq ?*ENCONTROJOVENES* FALSE)
 			then
@@ -316,16 +320,18 @@
 	)
 	(test 
 		(eq ?c Mayor)
+	)	
+	(test
 		(eq ?a Pareja)
 	)
 	?d <-(filtro (valores $?tipo))
-	(test (eq ?*ENCONTROTERCERAEDAD* FALSE))
+;;	(test (eq ?*ENCONTROTERCERAEDAD* FALSE))
 	=>	
-		(if (eq ?*ENCONTROTERCERAEDAD* FALSE)
-			then
-				(bind ?*ENCONTROTERCERAEDAD* TRUE)
+;;		(if (eq ?*ENCONTROTERCERAEDAD* FALSE)
+;;			then
+;;				(bind ?*ENCONTROTERCERAEDAD* TRUE)
 				(modify ?d (valores $?tipo Tercera_Edad))
-		)
+;;		)
 )
 
 ;; R.6.4
@@ -341,33 +347,35 @@
 			(eq ?c Adulta)
 			(eq ?c Mayor)
 		)
+	)
+	(test
 		(eq ?c Solo)
 	)
 	?d <-(filtro (valores $?tipo))
-	(test (eq ?*ENCONTROSOLASYSOLOS* FALSE))
+;;	(test (eq ?*ENCONTROSOLASYSOLOS* FALSE))
 	=>	
-		(if (eq ?*ENCONTROSOLASYSOLOS* FALSE)
-			then
-				(bind ?*ENCONTROSOLASYSOLOS TRUE)
+;;		(if (eq ?*ENCONTROSOLASYSOLOS* FALSE)
+;;			then
+;;				(bind ?*ENCONTROSOLASYSOLOS TRUE)
 				(modify ?d (valores $?tipo Solas_y_Solos))
-		)
+;;		)
 )
 
 ;; R.6.5
-(defrule R_DESTINOS_AVENTURAS	
-	(Actividad
-		(aventura ?a)
-	)
-	(test 
-		(or
-			(eq ?a Acuaticas)
-			(eq ?a Treking)
-			(eq ?a Cabalgata)
-		)
-	)
-	?b <- (Destino (tipo NoSe))	
-	=>	(modify ?b (tipo Aventura))
-)
+;;(defrule R_DESTINOS_AVENTURAS	
+;;	(Actividad
+;;		(aventura ?a)
+;;	)
+;;	(test 
+;;		(or
+;;			(eq ?a Acuaticas)
+;;			(eq ?a Treking)
+;;			(eq ?a Cabalgata)
+;;		)
+;;	)
+;;	?b <- (Destino (tipo NoSe))	
+;;	=>	(modify ?b (tipo Aventura))
+;;)
 
 ;; R.6.6
 (defrule R_DESTINOS_CULTURALES
@@ -467,98 +475,115 @@
 ;; R.7.1
 (defrule R_DESTINOS_LUJOSOS
 	(Temporada
-		(tipo $?c)
+		(tipo ?c)
 	)
 	(Presupuesto
-		(alcance $?a)
+		(alcance ?a)
 	)
 	(test
 		(or
 			(eq ?c Baja)
 			(eq ?c Media)
 		)
+	)
+	(test
 		(eq ?a Alto)
 	)
 	?d <- (filtro (valores $?tipo))
-	(test (eq ?*ENCONTRADOLUJOSOS* FALSE))
 	=> 
-		(if (eq ?*ENCONTRADOLUJOSOS* FALSE)
-			then
-				(bind ?*ENCONTRADOLUJOSOS TRUE)
-				(modify ?d (valores $?tipo Lujosos))
+		(modify ?d (valores $?tipo Lujosos))
 )
 
 ;; R.7.2
 (defrule R_DESTINOS_INTERMEDIOS
 	(Temporada
-		(tipo $?c)
+		(tipo ?c)
 	)
 	(Presupuesto
-		(alcance $?a)
+		(alcance ?a)
 	)
 	(test
 		(eq ?c Alta)
+	)
+	(test
 		(eq ?a Medio)
 	)
 	?d <- (filtro (valores $?tipo))
-	(test (eq ?*ENCONTRADOINTERMEDIOS* FALSE))
 	=> 
-		(if (eq ?*ENCONTRADOINTERMEDIOS* FALSE)
-			then
-				(bind ?*ENCONTRADOINTERMEDIOS TRUE)
-				(modify ?d (valores $?tipo Intermedios))
+		(modify ?d (valores $?tipo Intermedios))
 )
 
 ;; R.7.2
 (defrule R_DESTINOS_GASOLEROS
 	(Temporada
-		(tipo $?c)
+		(tipo ?c)
 	)
 	(Presupuesto
-		(alcance $?a)
+		(alcance ?a)
 	)
 	(test
 		(or
 			(eq ?c Media)
 			(eq ?c Alta)
 		)
+	)
+	(test
 		(eq ?a Bajo)
 	)
 	?d <- (filtro (valores $?tipo))
-	(test (eq ?*ENCONTRADOGASOLEROS* FALSE))
 	=> 
-		(if (eq ?*ENCONTRADOGASOLEROS* FALSE)
-			then
-				(bind ?*ENCONTRADOGASOLEROS TRUE)
-				(modify ?d (valores $?tipo Gasoleros))
+		(modify ?d (valores $?tipo Gasoleros))
 )
 
 ;; R.8
+;;(defrule CREAR_RESULTADO
+;;	(filtro (valores $?v))
+;;	(Destino 
+;;		(nombre ?n)
+;;		(lat ?lt)
+;;		(long ?ln)
+;;	)
+;;	=>
+;;	(loop-for-count (?x 1 2)
+;;		(bind ?val (nth$ ?x $?v))
+;;		(if(member$ ?val $?t)
+;;			then
+;;				;;(printout t "encuentra " ?val crlf)
+;;				(bind ?*FILTRO* TRUE)
+;;				else
+;;				(if (neq ?val nil)
+;;					then
+;;						;;(printout t "no encuentra " ?val crlf)
+;;						(bind ?*FILTRO* FALSE)
+;;				)
+;;		)
+;;	)
+;;	(if (eq ?*FILTRO* TRUE)
+;;		then
+;;			(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
+;;	)
+;;)
+
 (defrule CREAR_RESULTADO
 	(filtro (valores $?v))
-	(Destino 
-		(nombre ?n)
-		(lat ?lt)
-		(long ?ln)
-		(tipo $?t)
-	)
-	=>
+	(Destino (nombre ?n)(lat ?lt)(long ?ln)(tipo $?t))
+=>
 	(loop-for-count (?x 1 2)
 		(bind ?val (nth$ ?x $?v))
 		(if(member$ ?val $?t)
 			then
-				;;(printout t "encuentra " ?val crlf)
-				(bind ?*FILTRO* TRUE)
-				else
-				(if (neq ?val nil)
-					then
-						;;(printout t "no encuentra " ?val crlf)
-						(bind ?*FILTRO* FALSE)
-				)
+			;;(printout t "encuentra " ?val crlf)
+			(bind ?*FILTRO* TRUE)
+			else
+			(if (neq ?val nil)
+				then
+					;;(printout t "no encuentra " ?val crlf)
+					(bind ?*FILTRO* FALSE)
+			)
 		)
 	)
 	(if (eq ?*FILTRO* TRUE)
 		then
-			(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
-	)
+		(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
+		)
 )
