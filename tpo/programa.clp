@@ -285,8 +285,10 @@
 		)
 	)
 	?d <-(filtroEdadAcompaniante (valores $?tipo))
+	(test (eq ?*ENCONTROFAMILIARES* FALSE))
 	=>	
 		(modify ?d (valores $?tipo Familiares))
+		(bind ?*ENCONTROFAMILIARES* TRUE)
 )
 
 ;; R.6.2
@@ -492,7 +494,7 @@
 		(eq ?c Alta)
 	)
 	(test
-		(eq ?a Medio)
+		(eq ?a Moderado)
 	)
 	?d <- (filtroPresupuestoTemporada (valores $?tipo))
 	(test (eq ?*ENCONTRADOINTERMEDIOS* FALSE))
