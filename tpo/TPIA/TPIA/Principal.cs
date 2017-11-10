@@ -101,10 +101,13 @@ namespace TPIA
             clips.Load("facts.clp");
             clips.Reset();
 
-            //evalStr = "(assert (viajero (caso 1) (edad " + edad + ") (dinero " + dinero + ") (acompaniantes " + acompaniantes + ")))";
-            //clips.Eval(evalStr);
-            //evalStr = "(assert (mes_viaje (caso 1) (nombre " + mes + ")))";
-            //clips.Eval(evalStr);
+            if (acompaniantes == "No Se")
+                acompaniantes = "NoSe";
+
+            evalStr = "(assert (Viajero (edad " + edad + ") (dinero " + dinero + ") (acompaniantes " + acompaniantes + ")))";
+            clips.Eval(evalStr);
+            evalStr = "(assert (Mes_Viaje (nombre " + mes + ")))";
+            clips.Eval(evalStr);
             evalStr = "(assert (subtipos (valores " + actividades + ")))";
             clips.Eval(evalStr);
 
