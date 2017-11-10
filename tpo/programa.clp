@@ -546,7 +546,7 @@
 	(filtro (valores $?v))
 	(Destino (nombre ?n)(lat ?lt)(long ?ln)(tipo $?t))
 =>
-	(loop-for-count (?x 1 2)
+	(loop-for-count (?x 1 10)
 		(bind ?val (nth$ ?x $?v))
 		(if(member$ ?val $?t)
 			then
