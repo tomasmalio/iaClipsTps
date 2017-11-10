@@ -157,6 +157,6 @@
 		)
 	)
 	(filtro)
-	;;esto es de prueba
-	;;(subtipos (valores Museos Lugares_Historicos Nocturna Lujosos))
+	(Temporada (tipo NoSe))
+	(Presupuesto (alcance NoSe))
 )
