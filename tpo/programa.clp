@@ -505,7 +505,10 @@
 		(alcance ?a)
 	)
 	(test
-		(eq ?c Alta)
+		(or
+			(eq ?c Alta)
+			(eq ?c Baja)
+		)
 	)
 	(test
 		(eq ?a Moderado)
