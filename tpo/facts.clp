@@ -187,19 +187,42 @@
 )
 
 
+;;(deffacts datos 
+;;	(Actividad
+;;		(culturales 
+;;			Museos Lugares_Historicos Fotografia Conocer_Ciudad Gastronomia NoSe
+;;		)
+;;		(aventura 
+;;			Acuaticas Treking Cabalgata Buceo NoSe
+;;		)
+;;		(relax 
+;;			Descanso Pesca Gastronomia Fotografia NoSe
+;;		)
+;;		(fiesta 
+;;			Nocturna Gastronomia NoSe
+;;		)
+;;	)
+;;	(filtro)
+;;	(filtroEdadAcompaniante)
+;;	(filtroPresupuestoTemporada)
+;;	(Temporada (tipo NoSe))
+;;	(Presupuesto (alcance NoSe))
+;;	(Viajero_Edad (categoria NoSe))
+;;)
+
 (deffacts datos 
 	(Actividad
 		(culturales 
-			Museos Lugares_Historicos Fotografia Conocer_Ciudad Gastronomia NoSe
+			Museos Lugares_Historicos Conocer_Ciudad Gastronomia NoSe
 		)
 		(aventura 
 			Acuaticas Treking Cabalgata Buceo NoSe
 		)
 		(relax 
-			Descanso Pesca Gastronomia Fotografia NoSe
+			Descanso Pesca Fotografia NoSe
 		)
 		(fiesta 
-			Nocturna Gastronomia NoSe
+			Nocturna NoSe
 		)
 	)
 	(filtro)

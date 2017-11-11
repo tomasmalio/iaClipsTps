@@ -58,15 +58,26 @@
 		(allowed-values Familia Amigos Pareja Solo NoSe))
 )
 
+;;(deftemplate Actividad
+;;	(multislot culturales
+;;		(allowed-values Museos Lugares_Historicos Fotografia Conocer_Ciudad Gastronomia NoSe))
+;;	(multislot aventura
+;;		(allowed-values Acuaticas Treking Cabalgata Buceo NoSe))
+;;	(multislot relax
+;;		(allowed-values Descanso Pesca Gastronomia Fotografia NoSe))
+;;	(multislot fiesta
+;;		(allowed-values Nocturna Gastronomia NoSe))		
+;;)
+
 (deftemplate Actividad
 	(multislot culturales
-		(allowed-values Museos Lugares_Historicos Fotografia Conocer_Ciudad Gastronomia NoSe))
+		(allowed-values Museos Lugares_Historicos Conocer_Ciudad Gastronomia NoSe))
 	(multislot aventura
 		(allowed-values Acuaticas Treking Cabalgata Buceo NoSe))
 	(multislot relax
-		(allowed-values Descanso Pesca Gastronomia Fotografia NoSe))
+		(allowed-values Descanso Fotografia Pesca NoSe))
 	(multislot fiesta
-		(allowed-values Nocturna Gastronomia NoSe))		
+		(allowed-values Nocturna NoSe))		
 )
 
 (deftemplate Mes_Viaje
@@ -276,6 +287,7 @@
 		(or
 			(eq ?c Adulto)
 			(eq ?c Mayor)
+			(eq ?c Joven)
 		)
 	)
 	(test
@@ -303,6 +315,7 @@
 		(or
 			(eq ?c Joven)
 			(eq ?c Mayor)
+			(eq ?c Adulta)
 		)
 	)
 	(test
@@ -470,6 +483,7 @@
 		(or
 			(eq ?c Baja)
 			(eq ?c Media)
+			(eq ?c Alta)
 		)
 	)
 	(test
@@ -515,6 +529,7 @@
 		(or
 			(eq ?c Media)
 			(eq ?c Alta)
+			(eq ?c Baja)
 		)
 	)
 	(test
