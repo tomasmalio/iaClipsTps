@@ -1,7 +1,7 @@
 ;; Defacts Lista de Destino
 (deffacts listadoDestino
 	(Destino
-		(nombre "San Pedro,	Belice")
+		(nombre "San Pedro, Belice")
 		(lat 17.9213664)
 		(long -87.9610905)
 		(segunPresupuestoTemporada Intermedios)
@@ -97,7 +97,7 @@
 		(tipo Culturales)
 	)
 	(Destino
-		(nombre "Cancún, Mexico")
+		(nombre "Cancun, Mexico")
 		(lat 21.1213285)
 		(long -86.9192741)
 		(segunPresupuestoTemporada Intermedios Lujosos)
@@ -145,7 +145,7 @@
 		(tipo Aventura Culturales)
 	)
 	(Destino
-		(nombre "Ciudad de Panamá, Panamá")
+		(nombre "Ciudad de Panama, Panama")
 		(lat 9.0813885)
 		(long -79.5932255)
 		(segunPresupuestoTemporada Intermedios)
@@ -177,7 +177,7 @@
 		(tipo Culturales Fiesta)
 	)
 	(Destino
-		(nombre "Tikal	Guatemala")
+		(nombre "Tikal, Guatemala")
 		(lat 17.2239372)
 		(long -89.6333744)
 		(segunPresupuestoTemporada Gasoleros Intermedios)
@@ -213,16 +213,16 @@
 (deffacts datos 
 	(Actividad
 		(culturales 
-			Museos Lugares_Historicos Conocer_Ciudad Gastronomia NoSe
+			Museos Lugares_Historicos Conocer_Ciudad Gastronomia
 		)
 		(aventura 
-			Acuaticas Treking Cabalgata Buceo NoSe
+			Acuaticas Treking Cabalgata Buceo
 		)
 		(relax 
-			Descanso Pesca Fotografia NoSe
+			Descanso Pesca Fotografia
 		)
 		(fiesta 
-			Nocturna NoSe
+			Nocturna
 		)
 	)
 	(filtro)

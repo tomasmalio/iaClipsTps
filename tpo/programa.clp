@@ -11,6 +11,9 @@
 (defglobal ?*ENCONTRADOGASOLEROS* = FALSE)
 (defglobal ?*ENCONTRADOINTERMEDIOS* = FALSE)
 (defglobal ?*ENCONTRADOLUJOSOS* = FALSE)
+(defglobal ?*ENCONTROEDADNOSE* = FALSE)
+(defglobal ?*ENCONTROTEMPORADANOSE* = FALSE)
+(defglobal ?*ENCONTROACTIVIDADNOSE* = FALSE)
 
 (defglobal ?*FILTRO* = FALSE)
 
@@ -206,6 +209,16 @@
 	=>	(modify ?a (tipo Baja))
 )
 
+;; R.3.6
+(defrule R_TEMPORADA_NOSE
+	(Mes_Viaje
+		(nombre NoSe))
+	?a <- (Temporada (tipo NoSe))	
+	(test (eq ?*ENCONTROTEMPORADANOSE* FALSE))
+	=>	(modify ?a (tipo NoSe))
+		(bind ?*ENCONTROTEMPORADANOSE* TRUE)
+)
+
 ;; Fin R.3
 
 
@@ -367,7 +380,7 @@
 		)
 	)
 	(test
-		(eq ?c Solo)
+		(eq ?a Solo)
 	)
 	?d <-(filtroEdadAcompaniante (valores $?tipo))
 	(test (eq ?*ENCONTROSOLASYSOLOS* FALSE))
@@ -375,6 +388,51 @@
 		(modify ?d (valores $?tipo Solas_y_Solos))
 		(bind ?*ENCONTROSOLASYSOLOS* TRUE)
 )
+
+;; R.6.5
+(defrule R_DESTINOS_EDADNOSE
+	(Viajero_Edad
+		(categoria ?c)
+	)
+	(Viajero
+		(acompaniantes ?a)
+	)
+	(test 
+		(or
+			(eq ?c Adulta)
+			(eq ?c Mayor)
+			(eq ?c Joven)
+		)
+	)
+	(test
+		(eq ?a NoSe)
+	)
+	?d <-(filtroEdadAcompaniante (valores $?tipo))
+	(test (eq ?*ENCONTROEDADNOSE* FALSE))
+	=>	
+		(modify ?d (valores $?tipo Solas_y_Solos Familiares Jovenes Tercera_Edad))
+		(bind ?*ENCONTROEDADNOSE* TRUE)
+)
+
+;;
+(defrule R_DESTINOS_NOSE
+	(subtipos (valores $?v))
+	?d <-(filtro (valores $?tipo))
+	(test (eq ?*ENCONTROACTIVIDADNOSE* FALSE))
+	=>
+	(loop-for-count(?x 1 5)
+		(if (member$ NoSe $?v)	
+			then
+			(modify ?d (valores Culturales Fiesta Aventura Relax))
+			(bind ?*ENCONTROCULTURAL* TRUE)
+			(bind ?*ENCONTROAVENTURA* TRUE)
+			(bind ?*ENCONTROFIESTA* TRUE)
+			(bind ?*ENCONTRORELAX* TRUE)
+		)
+	)
+	(bind ?*ENCONTROACTIVIDADNOSE* TRUE)
+)
+
 
 ;; R.6.6
 (defrule R_DESTINOS_CULTURALES
@@ -392,6 +450,7 @@
 					(bind ?new (delete$ $?v ?x ?x))
 					(bind ?*ENCONTROCULTURAL* TRUE)
 			)
+
 		)
 		(if (eq ?*ENCONTROCULTURAL* TRUE)
 			then
@@ -456,7 +515,7 @@
 	?d <-(filtro (valores $?tipo))
 	(test (eq ?*ENCONTRORELAX* FALSE))
 	=>	(loop-for-count(?x 1 5)
-			(bind ?val (nth$ ?x $?v))
+		(bind ?val (nth$ ?x $?v))
 			(if(member$ ?val $?c)
 				then
 					(printout t "esta " ?val crlf)
@@ -542,6 +601,27 @@
 	(test (eq ?*ENCONTRADOGASOLEROS* FALSE))
 	=> 
 		(modify ?d (valores $?tipo Gasoleros))
+		(bind ?*ENCONTRADOGASOLEROS* TRUE)
+)
+
+;; R.7.3
+(defrule R_DESTINOS_PRESUPUESTONOSE
+	(Temporada
+		(tipo ?c)
+	)
+	(Presupuesto
+		(alcance ?a)
+	)
+	(test
+		(eq ?c NoSe)
+	)
+;;	(test
+;;		(eq ?a Bajo)
+;;	)
+	?d <- (filtroPresupuestoTemporada (valores $?tipo))
+	(test (eq ?*ENCONTRADOGASOLEROS* FALSE))
+	=> 
+		(modify ?d (valores $?tipo Gasoleros Intermedios Lujosos))
 		(bind ?*ENCONTRADOGASOLEROS* TRUE)
 )
 
