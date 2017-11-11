@@ -2,6 +2,7 @@
 {
     partial class Mapa
     {
+        WebBrowserTabPage web;
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -10,7 +11,6 @@
         public Mapa(string url)
         {
             InitializeComponent();
-            
             wbMapa.Navigate(url);
         }
 

@@ -9,7 +9,7 @@ namespace TPIA.data
     public class Caso
     {
         public string dni;
-        public string fecha;
+        public DateTime? fecha;
         public string edad;
         public string acompaniante;
         public List<string> actividades;

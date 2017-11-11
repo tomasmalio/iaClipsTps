@@ -82,74 +82,85 @@ namespace TPIA
 
         private void BAnalizar_Click(object sender, EventArgs e)
         {
-            var edad = Edad.Text;
-            var dinero = Dinero.Text;
-            var acompaniantes = Acompaniantes.SelectedItem;
-            var mes = Mes.SelectedItem;
-            var actividades = "";
-
-            foreach (var i in SubActividades.CheckedItems)
+            try
             {
-                actividades += i.ToString() + " ";
-            }
 
-            if (mes == "No Se")
-                mes = "NoSe";
-            String evalStr = "";
-            clips = new CLIPSNET.Environment();
-            clips.Load("programa.clp");
-            clips.Load("facts.clp");
-            clips.Reset();
+                var edad = Edad.Text;
+                var dinero = Dinero.Text;
+                var acompaniantes = Acompaniantes.SelectedItem;
+                var mes = Mes.SelectedItem;
+                var actividades = "";
 
-            if (acompaniantes == "No Se")
-                acompaniantes = "NoSe";
+                foreach (var i in SubActividades.CheckedItems)
+                {
+                    actividades += i.ToString() + " ";
+                }
 
-            evalStr = "(assert (Viajero (edad " + edad + ") (dinero " + dinero + ") (acompaniantes " + acompaniantes + ")))";
-            clips.Eval(evalStr);
-            evalStr = "(assert (Mes_Viaje (nombre " + mes + ")))";
-            clips.Eval(evalStr);
-            evalStr = "(assert (subtipos (valores " + actividades + ")))";
-            clips.Eval(evalStr);
+                if (actividades == "")
+                    actividades = "NoSe";
 
-            clips.Run();
+                if (mes == "No Se")
+                    mes = "NoSe";
+                String evalStr = "";
+                clips = new CLIPSNET.Environment();
+                clips.Load("programa.clp");
+                clips.Load("facts.clp");
+                clips.Reset();
+
+                if (acompaniantes == "No Se")
+                    acompaniantes = "NoSe";
+
+                evalStr = "(assert (Viajero (edad " + edad + ") (dinero " + dinero + ") (acompaniantes " + acompaniantes + ")))";
+                clips.Eval(evalStr);
+                evalStr = "(assert (Mes_Viaje (nombre " + mes + ")))";
+                clips.Eval(evalStr);
+                evalStr = "(assert (subtipos (valores " + actividades + ")))";
+                clips.Eval(evalStr);
+
+                clips.Run();
 
 
-            evalStr = "(find-all-facts ((?J resultado)) TRUE)";
-            //FactAddressValue fv = (FactAddressValue)((MultifieldValue)clips.Eval(evalStr))[0];
-            //String s = fv.GetFactSlot("nombre").ToString();
+                evalStr = "(find-all-facts ((?J resultado)) TRUE)";
+                //FactAddressValue fv = (FactAddressValue)((MultifieldValue)clips.Eval(evalStr))[0];
+                //String s = fv.GetFactSlot("nombre").ToString();
 
-            //String evalStr = "(find-all-facts ((?J diagnostico)) TRUE)";
-            var resultados = new List<Resultado>();
+                //String evalStr = "(find-all-facts ((?J diagnostico)) TRUE)";
+                var resultados = new List<Resultado>();
 
-            foreach (FactAddressValue fv in clips.Eval(evalStr) as MultifieldValue)
+                foreach (FactAddressValue fv in clips.Eval(evalStr) as MultifieldValue)
+                {
+                    var res = new Resultado();
+                    res.nombre = fv.GetFactSlot("nombre").ToString();
+                    res.lat = fv.GetFactSlot("lat").ToString();
+                    res.lon = fv.GetFactSlot("lon").ToString();
+                    resultados.Add(res);
+                }
+
+                //System.Diagnostics.Process.Start(@"chrome.exe", "http://maps.google.com.ar");
+
+                Caso c = new Caso()
+                {
+                    dni = _dni,
+                    edad = Edad.Text,
+                    acompaniante = Acompaniantes.SelectedItem.ToString(),
+                    dinero = Dinero.Text,
+                    fecha = DateTime.Now,
+                    mes = Mes.SelectedItem.ToString(),
+                    actividades = SubActividades.CheckedItems.Cast<string>().ToList(),
+                    resultados = resultados
+                };
+
+                lbResultados.Items.Clear();
+
+                Utils.SubirRegistro(c);
+                lFecha.Text = DateTime.Now.ToString();
+                foreach (var r in resultados)
+                {
+                    lbResultados.Items.Add(r.nombre);
+                }
+            }catch(Exception ex)
             {
-                var res = new Resultado();
-                res.nombre = fv.GetFactSlot("nombre").ToString();
-                res.lat = fv.GetFactSlot("lat").ToString();
-                res.lon = fv.GetFactSlot("lon").ToString();
-                resultados.Add(res);
-            }
-
-            //System.Diagnostics.Process.Start(@"chrome.exe", "http://maps.google.com.ar");
-
-            Caso c = new Caso()
-            {
-                dni = _dni,
-                edad = Edad.Text,
-                acompaniante = Acompaniantes.SelectedItem.ToString(),
-                dinero = Dinero.Text,
-                fecha = DateTime.Now.ToString(),
-                mes = Mes.SelectedItem.ToString(),
-                actividades = SubActividades.CheckedItems.Cast<string>().ToList(),
-                resultados = resultados
-            };
-
-            lbResultados.Items.Clear();
-
-            Utils.SubirRegistro(c);
-            foreach(var r in resultados)
-            {
-                lbResultados.Items.Add(r.nombre);
+                throw new Exception("Fallo en app: " + ex.Message);
             }
             
         }
@@ -160,6 +171,7 @@ namespace TPIA
             url += ((ListBox)sender).SelectedItem.ToString();
             Mapa m = new Mapa(url);
             m.Show();
+            //System.Diagnostics.Process.Start(@"chrome.exe", url);
         }
     }
 }
