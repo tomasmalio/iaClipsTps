@@ -615,9 +615,6 @@
 	(test
 		(eq ?c NoSe)
 	)
-;;	(test
-;;		(eq ?a Bajo)
-;;	)
 	?d <- (filtroPresupuestoTemporada (valores $?tipo))
 	(test (eq ?*ENCONTRADOGASOLEROS* FALSE))
 	=> 
@@ -630,71 +627,76 @@
 	(filtro (valores $?v))
 	(filtroEdadAcompaniante (valores $?e))
 	(filtroPresupuestoTemporada (valores $?p))
-	(Destino (nombre ?n)(lat ?lt)(long ?ln)(tipo $?t)(segunEdadAcompaniante $?se)(segunPresupuestoTemporada $?sp))
-;;	(test (eq ?e ?se))
-;;	(test (eq ?p ?sp))
-=>
-	(bind ?encuentraTipo FALSE)
-	(bind ?encuentraEdad FALSE)
-	(bind ?encuentraPres FALSE)
-	(loop-for-count (?x 1 10)
-		(bind ?val (nth$ ?x $?v))
-		(if(member$ ?val $?t)
-			then
-			(printout t ?n "encuentra " ?val crlf)
-			(bind ?*FILTRO* TRUE)
-			else
-			(if (neq ?val nil)
+	(Destino 
+		(nombre ?n)
+		(lat ?lt)
+		(long ?ln)
+		(tipo $?t)
+		(segunEdadAcompaniante $?se)
+		(segunPresupuestoTemporada $?sp)
+	)
+	=>
+		(bind ?encuentraTipo FALSE)
+		(bind ?encuentraEdad FALSE)
+		(bind ?encuentraPres FALSE)
+		(loop-for-count (?x 1 10)
+			(bind ?val (nth$ ?x $?v))
+			(if(member$ ?val $?t)
 				then
-					(printout t "no encuentra " ?val crlf)
-					(bind ?*FILTRO* FALSE)
+					(printout t ?n "encuentra " ?val crlf)
+					(bind ?*FILTRO* TRUE)
+				else
+					(if (neq ?val nil)
+						then
+							(printout t "no encuentra " ?val crlf)
+							(bind ?*FILTRO* FALSE)
+					)
 			)
-		)
-		(if (eq ?*FILTRO* TRUE)
-			then
-			(bind ?encuentraTipo TRUE))
+			(if (eq ?*FILTRO* TRUE)
+				then
+					(bind ?encuentraTipo TRUE))
 
-	)
-	(bind ?*FILTRO* FALSE)
-	(loop-for-count (?x 1 10)
-		(bind ?val (nth$ ?x $?e))
-		(if(member$ ?val $?se)
-			then
-			(printout t ?n "encuentra " ?val crlf)
-			(bind ?*FILTRO* TRUE)
-			else
-			(if (neq ?val nil)
-				then
-					(printout t "no encuentra " ?val crlf)
-					(bind ?*FILTRO* FALSE)
-			)
 		)
-		(if (eq ?*FILTRO* TRUE)
-			then
-			(bind ?encuentraEdad TRUE))
-	)
-	(bind ?*FILTRO* FALSE)
-	(loop-for-count (?x 1 10)
-		(bind ?val (nth$ ?x $?p))
-		(if(member$ ?val $?sp)
-			then
-			(printout t ?n "encuentra " ?val crlf)
-			(bind ?*FILTRO* TRUE)
-			else
-			(if (neq ?val nil)
+		(bind ?*FILTRO* FALSE)
+		(loop-for-count (?x 1 10)
+			(bind ?val (nth$ ?x $?e))
+			(if(member$ ?val $?se)
 				then
-					(printout t "no encuentra " ?val crlf)
-					(bind ?*FILTRO* FALSE)
+					(printout t ?n "encuentra " ?val crlf)
+					(bind ?*FILTRO* TRUE)
+				else
+					(if (neq ?val nil)
+						then
+							(printout t "no encuentra " ?val crlf)
+							(bind ?*FILTRO* FALSE)
+					)
 			)
+			(if (eq ?*FILTRO* TRUE)
+				then
+				(bind ?encuentraEdad TRUE))
 		)
-		(if (eq ?*FILTRO* TRUE)
-			then
-			(bind ?encuentraPres TRUE))
-	)
+		(bind ?*FILTRO* FALSE)
+		(loop-for-count (?x 1 10)
+			(bind ?val (nth$ ?x $?p))
+			(if(member$ ?val $?sp)
+				then
+					(printout t ?n "encuentra " ?val crlf)
+					(bind ?*FILTRO* TRUE)
+				else
+					(if (neq ?val nil)
+						then
+							(printout t "no encuentra " ?val crlf)
+							(bind ?*FILTRO* FALSE)
+					)
+			)
+			(if (eq ?*FILTRO* TRUE)
+				then
+					(bind ?encuentraPres TRUE))
+		)
 
-	(if (eq ?encuentraPres ?encuentraEdad ?encuentraTipo TRUE)
-	then
-	(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
-	(bind ?*FILTRO* FALSE)
-	)	
+		(if (eq ?encuentraPres ?encuentraEdad ?encuentraTipo TRUE)
+			then
+				(assert (resultado(nombre ?n)(lat ?lt)(lon ?ln)))
+				(bind ?*FILTRO* FALSE)
+		)
 )
