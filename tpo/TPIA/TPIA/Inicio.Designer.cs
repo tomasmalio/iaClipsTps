@@ -38,36 +38,38 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(12, 30);
+            this.label6.Location = new System.Drawing.Point(11, 24);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(1034, 36);
+            this.label6.Size = new System.Drawing.Size(886, 29);
             this.label6.TabIndex = 17;
-            this.label6.Text = "Sistema Experto para Determinar Destinos Turisticos en Centro America";
+            this.label6.Text = "Sistema Experto para Determinar Destinos Turisticos en Centroamérica";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(116, 155);
+            this.label1.Location = new System.Drawing.Point(103, 124);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(141, 29);
+            this.label1.Size = new System.Drawing.Size(115, 25);
             this.label1.TabIndex = 18;
             this.label1.Text = "Ingrese DNI";
             // 
             // dni
             // 
             this.dni.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dni.Location = new System.Drawing.Point(263, 155);
+            this.dni.Location = new System.Drawing.Point(234, 124);
+            this.dni.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dni.Name = "dni";
-            this.dni.Size = new System.Drawing.Size(191, 35);
+            this.dni.Size = new System.Drawing.Size(170, 30);
             this.dni.TabIndex = 19;
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(597, 144);
+            this.button1.Location = new System.Drawing.Point(531, 115);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(216, 56);
+            this.button1.Size = new System.Drawing.Size(192, 45);
             this.button1.TabIndex = 20;
             this.button1.Text = "Buscar";
             this.button1.UseVisualStyleBackColor = true;
@@ -75,13 +77,14 @@
             // 
             // Inicio
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1071, 336);
+            this.ClientSize = new System.Drawing.Size(952, 269);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dni);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Inicio";
             this.Text = "Inicio";
             this.ResumeLayout(false);

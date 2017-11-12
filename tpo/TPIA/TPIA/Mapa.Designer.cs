@@ -2,7 +2,7 @@
 {
     partial class Mapa
     {
-        WebBrowserTabPage web;
+        
         /// <summary>
         /// Required designer variable.
         /// </summary>

@@ -12,6 +12,4 @@ C:\Users\Gustavo\source\repos\TPIA\TPIA\obj\Debug\TPIA.csproj.GenerateResource.C
 C:\Users\Gustavo\source\repos\TPIA\TPIA\obj\Debug\TPIA.csproj.CoreCompileInputs.cache
 C:\Users\Gustavo\source\repos\TPIA\TPIA\obj\Debug\TPIA.exe
 C:\Users\Gustavo\source\repos\TPIA\TPIA\obj\Debug\TPIA.pdb
-C:\Users\Gustavo\source\repos\TPIA\TPIA\obj\Debug\TPIA.Mapa2.resources
-C:\Users\Gustavo\source\repos\TPIA\TPIA\bin\Debug\WebKitBrowser.dll
-C:\Users\Gustavo\source\repos\TPIA\TPIA\bin\Debug\WebKitBrowser.pdb
+C:\Users\Gustavo\source\repos\TPIA\TPIA\obj\Debug\TPIA.csprojResolveAssemblyReference.cache
