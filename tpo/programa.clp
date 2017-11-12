@@ -61,17 +61,6 @@
 		(allowed-values Familia Amigos Pareja Solo NoSe))
 )
 
-;;(deftemplate Actividad
-;;	(multislot culturales
-;;		(allowed-values Museos Lugares_Historicos Fotografia Conocer_Ciudad Gastronomia NoSe))
-;;	(multislot aventura
-;;		(allowed-values Acuaticas Treking Cabalgata Buceo NoSe))
-;;	(multislot relax
-;;		(allowed-values Descanso Pesca Gastronomia Fotografia NoSe))
-;;	(multislot fiesta
-;;		(allowed-values Nocturna Gastronomia NoSe))		
-;;)
-
 (deftemplate Actividad
 	(multislot culturales
 		(allowed-values Museos Lugares_Historicos Conocer_Ciudad Gastronomia NoSe))
