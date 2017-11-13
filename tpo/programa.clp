@@ -216,8 +216,8 @@
 (defrule R_PRESUPUESTO_BAJO
 	(Viajero
 		(dinero ?d))
-	(test (>= ?d 5000))
-	(test (<= ?d 10000))
+	(test (>= ?d 15000))
+	(test (<= ?d 20000))
 	?a <- (Presupuesto (alcance NoSe))	
 	=>	(modify ?a (alcance Bajo))
 )
@@ -226,8 +226,8 @@
 (defrule R_PRESUPUESTO_MEDIO
 	(Viajero
 		(dinero ?d))
-	(test (>= ?d 10001))
-	(test (<= ?d 20000))
+	(test (>= ?d 20001))
+	(test (<= ?d 30000))
 	?a <- (Presupuesto (alcance NoSe))	
 	=>	(modify ?a (alcance Moderado))
 )
@@ -236,7 +236,7 @@
 (defrule R_PRESUPUESTO_ALTO
 	(Viajero
 		(dinero ?d))
-	(test (>= ?d 20001)) 
+	(test (>= ?d 30000)) 
 	?a <- (Presupuesto (alcance NoSe))	
 	=>	(modify ?a (alcance Alto))
 )
